@@ -1,0 +1,329 @@
+{
+	"Model": "SB8200",
+	"AcquiredDownstreamChannel": 555000000,
+	"DownstreamChannelStatus": "Locked",
+	"Connectivity": "OK",
+	"ConnectivityComment": "Operational",
+	"Downstream": [
+		{
+			"Id": 20,
+			"Locked": "Locked",
+			"Modulation": "QAM256",
+			"Frequency": 555000000,
+			"Power": 9.3,
+			"SNR": 41.8,
+			"Corrected": 41584,
+			"Uncorrectables": 51908
+		},
+		{
+			"Id": 17,
+			"Locked": "Locked",
+			"Modulation": "QAM256",
+			"Frequency": 537000000,
+			"Power": 9.1,
+			"SNR": 41.9,
+			"Corrected": 46093,
+			"Uncorrectables": 52665
+		},
+		{
+			"Id": 18,
+			"Locked": "Locked",
+			"Modulation": "QAM256",
+			"Frequency": 543000000,
+			"Power": 9.1,
+			"SNR": 42.0,
+			"Corrected": 45411,
+			"Uncorrectables": 50810
+		},
+		{
+			"Id": 19,
+			"Locked": "Locked",
+			"Modulation": "QAM256",
+			"Frequency": 549000000,
+			"Power": 9.7,
+			"SNR": 41.9,
+			"Corrected": 44822,
+			"Uncorrectables": 52503
+		},
+		{
+			"Id": 21,
+			"Locked": "Locked",
+			"Modulation": "QAM256",
+			"Frequency": 561000000,
+			"Power": 9.3,
+			"SNR": 41.8,
+			"Corrected": 43923,
+			"Uncorrectables": 48829
+		},
+		{
+			"Id": 22,
+			"Locked": "Locked",
+			"Modulation": "QAM256",
+			"Frequency": 567000000,
+			"Power": 9.7,
+			"SNR": 42.0,
+			"Corrected": 43473,
+			"Uncorrectables": 48068
+		},
+		{
+			"Id": 23,
+			"Locked": "Locked",
+			"Modulation": "QAM256",
+			"Frequency": 573000000,
+			"Power": 9.1,
+			"SNR": 41.2,
+			"Corrected": 43108,
+			"Uncorrectables": 47273
+		},
+		{
+			"Id": 24,
+			"Locked": "Locked",
+			"Modulation": "QAM256",
+			"Frequency": 579000000,
+			"Power": 9.7,
+			"SNR": 41.6,
+			"Corrected": 43016,
+			"Uncorrectables": 46841
+		},
+		{
+			"Id": 25,
+			"Locked": "Locked",
+			"Modulation": "QAM256",
+			"Frequency": 585000000,
+			"Power": 10.2,
+			"SNR": 42.2,
+			"Corrected": 43084,
+			"Uncorrectables": 46885
+		},
+		{
+			"Id": 26,
+			"Locked": "Locked",
+			"Modulation": "QAM256",
+			"Frequency": 591000000,
+			"Power": 9.5,
+			"SNR": 41.9,
+			"Corrected": 42466,
+			"Uncorrectables": 47274
+		},
+		{
+			"Id": 27,
+			"Locked": "Locked",
+			"Modulation": "QAM256",
+			"Frequency": 597000000,
+			"Power": 10.0,
+			"SNR": 42.0,
+			"Corrected": 41972,
+			"Uncorrectables": 46171
+		},
+		{
+			"Id": 28,
+			"Locked": "Locked",
+			"Modulation": "QAM256",
+			"Frequency": 603000000,
+			"Power": 10.3,
+			"SNR": 42.0,
+			"Corrected": 41881,
+			"Uncorrectables": 47295
+		},
+		{
+			"Id": 29,
+			"Locked": "Locked",
+			"Modulation": "QAM256",
+			"Frequency": 609000000,
+			"Power": 9.8,
+			"SNR": 41.9,
+			"Corrected": 41598,
+			"Uncorrectables": 47555
+		},
+		{
+			"Id": 30,
+			"Locked": "Locked",
+			"Modulation": "QAM256",
+			"Frequency": 615000000,
+			"Power": 10.5,
+			"SNR": 42.0,
+			"Corrected": 41278,
+			"Uncorrectables": 47586
+		},
+		{
+			"Id": 31,
+			"Locked": "Locked",
+			"Modulation": "QAM256",
+			"Frequency": 621000000,
+			"Power": 10.4,
+			"SNR": 41.9,
+			"Corrected": 41486,
+			"Uncorrectables": 50699
+		},
+		{
+			"Id": 32,
+			"Locked": "Locked",
+			"Modulation": "QAM256",
+			"Frequency": 627000000,
+			"Power": 9.9,
+			"SNR": 42.0,
+			"Corrected": 40481,
+			"Uncorrectables": 50103
+		},
+		{
+			"Id": 33,
+			"Locked": "Locked",
+			"Modulation": "QAM256",
+			"Frequency": 633000000,
+			"Power": 10.7,
+			"SNR": 42.1,
+			"Corrected": 40032,
+			"Uncorrectables": 48596
+		},
+		{
+			"Id": 34,
+			"Locked": "Locked",
+			"Modulation": "QAM256",
+			"Frequency": 639000000,
+			"Power": 10.4,
+			"SNR": 42.0,
+			"Corrected": 40458,
+			"Uncorrectables": 52510
+		},
+		{
+			"Id": 35,
+			"Locked": "Locked",
+			"Modulation": "QAM256",
+			"Frequency": 645000000,
+			"Power": 10.2,
+			"SNR": 42.0,
+			"Corrected": 39670,
+			"Uncorrectables": 50715
+		},
+		{
+			"Id": 36,
+			"Locked": "Locked",
+			"Modulation": "QAM256",
+			"Frequency": 651000000,
+			"Power": 10.9,
+			"SNR": 42.2,
+			"Corrected": 40016,
+			"Uncorrectables": 51583
+		},
+		{
+			"Id": 37,
+			"Locked": "Locked",
+			"Modulation": "QAM256",
+			"Frequency": 657000000,
+			"Power": 10.3,
+			"SNR": 42.0,
+			"Corrected": 40285,
+			"Uncorrectables": 53890
+		},
+		{
+			"Id": 38,
+			"Locked": "Locked",
+			"Modulation": "QAM256",
+			"Frequency": 663000000,
+			"Power": 10.5,
+			"SNR": 42.0,
+			"Corrected": 39806,
+			"Uncorrectables": 52623
+		},
+		{
+			"Id": 39,
+			"Locked": "Locked",
+			"Modulation": "QAM256",
+			"Frequency": 669000000,
+			"Power": 11.2,
+			"SNR": 42.2,
+			"Corrected": 39016,
+			"Uncorrectables": 53986
+		},
+		{
+			"Id": 40,
+			"Locked": "Locked",
+			"Modulation": "QAM256",
+			"Frequency": 675000000,
+			"Power": 10.6,
+			"SNR": 41.6,
+			"Corrected": 39132,
+			"Uncorrectables": 56036
+		},
+		{
+			"Id": 41,
+			"Locked": "Locked",
+			"Modulation": "QAM256",
+			"Frequency": 681000000,
+			"Power": 10.5,
+			"SNR": 42.0,
+			"Corrected": 41409,
+			"Uncorrectables": 58561
+		},
+		{
+			"Id": 42,
+			"Locked": "Locked",
+			"Modulation": "QAM256",
+			"Frequency": 687000000,
+			"Power": 11.4,
+			"SNR": 41.8,
+			"Corrected": 38899,
+			"Uncorrectables": 55110
+		},
+		{
+			"Id": 43,
+			"Locked": "Locked",
+			"Modulation": "QAM256",
+			"Frequency": 693000000,
+			"Power": 10.6,
+			"SNR": 41.9,
+			"Corrected": 37772,
+			"Uncorrectables": 56225
+		},
+		{
+			"Id": 44,
+			"Locked": "Locked",
+			"Modulation": "QAM256",
+			"Frequency": 699000000,
+			"Power": 11.2,
+			"SNR": 41.8,
+			"Corrected": 37713,
+			"Uncorrectables": 54978
+		},
+		{
+			"Id": 45,
+			"Locked": "Locked",
+			"Modulation": "QAM256",
+			"Frequency": 705000000,
+			"Power": 11.7,
+			"SNR": 42.2,
+			"Corrected": 37743,
+			"Uncorrectables": 56134
+		},
+		{
+			"Id": 46,
+			"Locked": "Locked",
+			"Modulation": "QAM256",
+			"Frequency": 711000000,
+			"Power": 10.8,
+			"SNR": 41.4,
+			"Corrected": 36220,
+			"Uncorrectables": 51388
+		},
+		{
+			"Id": 47,
+			"Locked": "Locked",
+			"Modulation": "QAM256",
+			"Frequency": 717000000,
+			"Power": 11.4,
+			"SNR": 42.1,
+			"Corrected": 36164,
+			"Uncorrectables": 51989
+		},
+		{
+			"Id": 48,
+			"Locked": "Locked",
+			"Modulation": "Other",
+			"Frequency": 805000000,
+			"Power": 8.8,
+			"SNR": 38.0,
+			"Corrected": 254404346,
+			"Uncorrectables": 1398
+		}
+	]
+}
