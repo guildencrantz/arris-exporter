@@ -325,5 +325,43 @@
 			"Corrected": 254404346,
 			"Uncorrectables": 1398
 		}
+	],
+	"Upstream": [
+		{
+			"Channel": 1,
+			"Id": 23,
+			"Locked": "Locked",
+			"Type": "SC-QAM Upstream",
+			"Frequency": 23700000,
+			"Width": 6400000,
+			"Power": 38.0
+		},
+		{
+			"Channel": 2,
+			"Id": 21,
+			"Locked": "Locked",
+			"Type": "SC-QAM Upstream",
+			"Frequency": 36500000,
+			"Width": 6400000,
+			"Power": 35.0
+		},
+		{
+			"Channel": 3,
+			"Id": 22,
+			"Locked": "Locked",
+			"Type": "SC-QAM Upstream",
+			"Frequency": 30100000,
+			"Width": 6400000,
+			"Power": 37.0
+		},
+		{
+			"Channel": 4,
+			"Id": 24,
+			"Locked": "Locked",
+			"Type": "SC-QAM Upstream",
+			"Frequency": 17300000,
+			"Width": 6400000,
+			"Power": 38.0
+		}
 	]
 }

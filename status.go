@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"strconv"
-	"strings"
 
 	"golang.org/x/net/html"
 
@@ -23,6 +22,16 @@ type downstream struct {
 	Uncorrectables int64
 }
 
+type upstream struct {
+	Id        int
+	Channel   int
+	Locked    string
+	Type      string
+	Frequency int64
+	Width     int64
+	Power     float32
+}
+
 type status struct {
 	*page
 	AcquiredDownstreamChannel int64
@@ -30,6 +39,7 @@ type status struct {
 	Connectivity              string
 	ConnectivityComment       string
 	Downstream                []downstream
+	Upstream                  []upstream
 }
 
 func (s *status) String() string {
@@ -49,7 +59,11 @@ func (s *status) Finalize() {
 	}
 	s.page.Finalize()
 
-	s.extracts.append(s.startup, s.downstreamChannels)
+	s.extracts.append(
+		s.startup,
+		s.downstreamChannels,
+		s.upstreamBonds,
+	)
 }
 
 func NewStatus() *status {
@@ -102,7 +116,7 @@ func (s *status) connectivityStatus(node *html.Node) bool {
 }
 
 func (s *status) downstreamChannels(node *html.Node) bool {
-	log := logrus.WithField("method", "status.connectivityStatus")
+	log := logrus.WithField("method", "status.downstreamChannels")
 	defer log.Trace("Done")
 
 	tbody := htmlquery.FindOne(node, `//th/strong[text()="Downstream Bonded Channels"]/../../..`)
@@ -135,15 +149,28 @@ func (s *status) downstreamChannels(node *html.Node) bool {
 	return true
 }
 
-func hz(node *html.Node, xp string) int64 {
-	str := htmlquery.InnerText(htmlquery.FindOne(node, xp))
-	hz, _ := strconv.ParseInt(str[:len(str)-3], 10, 64)
-	return hz
-}
+func (s *status) upstreamBonds(node *html.Node) bool {
+	log := logrus.WithField("method", "status.upstreamBonds")
+	defer log.Trace("Done")
 
-func db(node *html.Node, xp string) float32 {
-	str := htmlquery.InnerText(htmlquery.FindOne(node, xp))
-	words := strings.Split(str, " ")
-	db, _ := strconv.ParseFloat(words[0], 32)
-	return float32(db)
+	tbody := htmlquery.FindOne(node, `//th/strong[text()="Upstream Bonded Channels"]/../../..`)
+
+	trs := htmlquery.Find(tbody, `//tr`)
+
+	s.Upstream = make([]upstream, len(trs)-2)
+	for i := 2; i < len(trs); i++ {
+		channel, _ := strconv.Atoi(htmlquery.InnerText(htmlquery.FindOne(trs[i], `/td[1]`)))
+		id, _ := strconv.Atoi(htmlquery.InnerText(htmlquery.FindOne(trs[i], `/td[2]`)))
+		s.Upstream[i-2] = upstream{
+			Channel:   channel,
+			Id:        id,
+			Locked:    htmlquery.InnerText(htmlquery.FindOne(trs[i], `/td[3]`)),
+			Type:      htmlquery.InnerText(htmlquery.FindOne(trs[i], `/td[4]`)),
+			Frequency: hz(trs[i], `/td[5]`),
+			Width:     hz(trs[i], `/td[6]`),
+			Power:     db(trs[i], `/td[7]`),
+		}
+	}
+
+	return true
 }
