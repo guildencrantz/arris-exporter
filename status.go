@@ -28,7 +28,7 @@ type downstream struct {
 	Uncorrectables int64
 }
 
-func promPower(s *status, id int) prometheus.GaugeFunc {
+func promDownstreamPower(s *status, id int) prometheus.GaugeFunc {
 	return prometheus.NewGaugeFunc(
 		prometheus.GaugeOpts{
 			Namespace:   "arris",
@@ -73,22 +73,45 @@ func promUncorrectables(s *status, id int) prometheus.GaugeFunc {
 	)
 }
 
-func promRegister(s *status, id int) {
-	log := logrus.WithField("method", "downstream.Register").WithField("id", id)
+func promRegisterDownstream(s *status, id int) {
+	log := logrus.WithField("method", "downstream.promRegisterDownstream").WithField("id", id)
 	defer log.Trace("done")
 
-	prometheus.Register(promPower(s, id))
+	prometheus.Register(promDownstreamPower(s, id))
 	prometheus.Register(promCorrected(s, id))
 	prometheus.Register(promUncorrectables(s, id))
 }
 
-func promUnregister(s *status, id int) {
-	log := logrus.WithField("function", "promUnregister").WithField("id", id)
+func promUnregisterDownstream(s *status, id int) {
+	log := logrus.WithField("function", "promUnregisterDownstream").WithField("id", id)
 	defer log.Trace("done")
 
-	prometheus.Unregister(promPower(s, id))
+	prometheus.Unregister(promDownstreamPower(s, id))
 	prometheus.Unregister(promCorrected(s, id))
 	prometheus.Unregister(promUncorrectables(s, id))
+}
+
+func promUpstreamPower(s *status, id int) prometheus.GaugeFunc {
+	return prometheus.NewGaugeFunc(
+		prometheus.GaugeOpts{
+			Namespace:   "arris",
+			Subsystem:   "upstream",
+			Name:        "power",
+			Help:        "Power, in Hz, of upstream channel.",
+			ConstLabels: prometheus.Labels{"channel": strconv.Itoa(id)},
+		},
+		func() float64 {
+			return float64((*s.Downstream)[id].Power)
+		},
+	)
+}
+
+func promRegisterUpstream(s *status, id int) {
+	prometheus.Register(promUpstreamPower(s, id))
+}
+
+func promUnregisterUpstream(s *status, id int) {
+	prometheus.Unregister(promUpstreamPower(s, id))
 }
 
 type upstream struct {
@@ -258,16 +281,16 @@ func (s *status) downstream(node *html.Node) bool {
 	if s.downstreamChannels != nil {
 		gone := s.downstreamChannels.Difference(channels)
 		for id, _ := range gone {
-			promUnregister(s, id)
+			promUnregisterDownstream(s, id)
 		}
 
 		added := channels.Difference(*s.downstreamChannels)
 		for id, _ := range added {
-			promRegister(s, id)
+			promRegisterDownstream(s, id)
 		}
 	} else {
 		for id, _ := range channels {
-			promRegister(s, id)
+			promRegisterDownstream(s, id)
 		}
 	}
 
@@ -286,6 +309,7 @@ func (s *status) upstream(node *html.Node) bool {
 	trs := htmlquery.Find(tbody, `//tr`)
 
 	up := map[int]upstream{}
+	channels := sets.Int{}
 	for i := 2; i < len(trs); i++ {
 		channel, _ := strconv.Atoi(htmlquery.InnerText(htmlquery.FindOne(trs[i], `/td[1]`)))
 		id, _ := strconv.Atoi(htmlquery.InnerText(htmlquery.FindOne(trs[i], `/td[2]`)))
@@ -297,9 +321,27 @@ func (s *status) upstream(node *html.Node) bool {
 			Width:     hz(trs[i], `/td[6]`),
 			Power:     db(trs[i], `/td[7]`),
 		}
+		channels.Insert(id)
+	}
+
+	if s.upstreamChannels != nil {
+		gone := s.upstreamChannels.Difference(channels)
+		for id, _ := range gone {
+			promUnregisterUpstream(s, id)
+		}
+
+		added := channels.Difference(*s.upstreamChannels)
+		for id, _ := range added {
+			promRegisterUpstream(s, id)
+		}
+	} else {
+		for id, _ := range channels {
+			promRegisterUpstream(s, id)
+		}
 	}
 
 	*s.Upstream = up
+	*s.upstreamChannels = channels
 
 	return true
 }
