@@ -27,7 +27,7 @@ func main() {
 	s.Watch(15 * time.Second)
 
 	http.Handle("/metrics", promhttp.Handler())
-	http.ListenAndServe(":9101", nil)
+	http.ListenAndServe(":9100", nil)
 }
 
 func hz(node *html.Node, xp string) int64 {
