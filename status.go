@@ -3,15 +3,21 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"net/http"
 	"strconv"
+	"time"
 
 	"golang.org/x/net/html"
 
 	"github.com/antchfx/htmlquery"
+	"github.com/prometheus/client_golang/prometheus"
 	"github.com/sirupsen/logrus"
+
+	"k8s.io/apimachinery/pkg/util/sets"
 )
 
 type downstream struct {
+	statusPage     *status
 	Id             int
 	Locked         string
 	Modulation     string
@@ -22,8 +28,35 @@ type downstream struct {
 	Uncorrectables int64
 }
 
+func promPower(s *status, id int) prometheus.GaugeFunc {
+	return prometheus.NewGaugeFunc(
+		prometheus.GaugeOpts{
+			Namespace: "arris",
+			Subsystem: "downstream",
+			Name:      fmt.Sprintf("power_%d", id),
+			Help:      "Power, in Hz, of downstream channel.",
+		},
+		func() float64 {
+			return float64((*s.Downstream)[id].Power)
+		},
+	)
+}
+
+func promRegister(s *status, id int) {
+	log := logrus.WithField("method", "downstream.Register").WithField("id", id)
+	defer log.Trace("done")
+
+	prometheus.Register(promPower(s, id))
+}
+
+func promUnregister(s *status, id int) {
+	log := logrus.WithField("function", "promUnregister").WithField("id", id)
+	defer log.Trace("done")
+
+	prometheus.Unregister(promPower(s, id))
+}
+
 type upstream struct {
-	Id        int
 	Channel   int
 	Locked    string
 	Type      string
@@ -38,8 +71,10 @@ type status struct {
 	DownstreamChannelStatus   string
 	Connectivity              string
 	ConnectivityComment       string
-	Downstream                []downstream
-	Upstream                  []upstream
+	Downstream                *map[int]downstream
+	downstreamChannels        *sets.Int
+	Upstream                  *map[int]upstream
+	upstreamChannels          *sets.Int
 }
 
 func (s *status) String() string {
@@ -57,12 +92,20 @@ func (s *status) Finalize() {
 	if s.page == nil {
 		s.page = NewPage()
 	}
+	if s.page.Page == "" {
+		s.page.Page = "cmconnectionstatus.html"
+	}
 	s.page.Finalize()
+
+	s.Downstream = &map[int]downstream{}
+	s.downstreamChannels = &sets.Int{}
+	s.Upstream = &map[int]upstream{}
+	s.upstreamChannels = &sets.Int{}
 
 	s.extracts.append(
 		s.startup,
-		s.downstreamChannels,
-		s.upstreamBonds,
+		s.downstream,
+		s.upstream,
 	)
 }
 
@@ -70,6 +113,35 @@ func NewStatus() *status {
 	s := &status{}
 	s.Finalize()
 	return s
+}
+
+func (s *status) Watch(d time.Duration) {
+	log := logrus.WithField("method", "status.Watch")
+	defer log.Trace("done")
+
+	url := fmt.Sprintf("%s/%s", s.Host, s.Page)
+	log = log.WithField("url", url)
+	go func() {
+		for {
+			log.Trace("Get...")
+			resp, err := http.Get(url)
+			if err != nil {
+				log.WithError(err).Error("Unable to retrieve page")
+				continue
+			}
+			defer resp.Body.Close()
+			log.Trace("Got")
+
+			htm, err := html.Parse(resp.Body)
+			if err != nil {
+				log.WithError(err).Error("Unable to parse page HTML")
+			}
+
+			s.scrape(htm)
+
+			time.Sleep(d)
+		}
+	}()
 }
 
 func (s *status) startup(node *html.Node) bool {
@@ -115,7 +187,7 @@ func (s *status) connectivityStatus(node *html.Node) bool {
 	return true
 }
 
-func (s *status) downstreamChannels(node *html.Node) bool {
+func (s *status) downstream(node *html.Node) bool {
 	log := logrus.WithField("method", "status.downstreamChannels")
 	defer log.Trace("Done")
 
@@ -123,7 +195,8 @@ func (s *status) downstreamChannels(node *html.Node) bool {
 
 	trs := htmlquery.Find(tbody, `//tr`)
 
-	s.Downstream = make([]downstream, len(trs)-2)
+	down := map[int]downstream{}
+	channels := sets.Int{}
 	for i := 2; i < len(trs); i++ {
 		id, err := strconv.Atoi(htmlquery.InnerText(htmlquery.FindOne(trs[i], `/td[1]`)))
 		if err != nil {
@@ -134,7 +207,7 @@ func (s *status) downstreamChannels(node *html.Node) bool {
 		corrected, _ := strconv.ParseInt(htmlquery.InnerText(htmlquery.FindOne(trs[i], `/td[7]`)), 10, 64)
 		uncorrectables, _ := strconv.ParseInt(htmlquery.InnerText(htmlquery.FindOne(trs[i], `/td[8]`)), 10, 64)
 
-		s.Downstream[i-2] = downstream{
+		down[id] = downstream{
 			Id:             id,
 			Locked:         htmlquery.InnerText(htmlquery.FindOne(trs[i], `/td[2]`)),
 			Modulation:     htmlquery.InnerText(htmlquery.FindOne(trs[i], `/td[3]`)),
@@ -144,12 +217,32 @@ func (s *status) downstreamChannels(node *html.Node) bool {
 			Corrected:      corrected,
 			Uncorrectables: uncorrectables,
 		}
+		channels.Insert(id)
 	}
+
+	if s.downstreamChannels != nil {
+		gone := s.downstreamChannels.Difference(channels)
+		for id, _ := range gone {
+			promUnregister(s, id)
+		}
+
+		added := channels.Difference(*s.downstreamChannels)
+		for id, _ := range added {
+			promRegister(s, id)
+		}
+	} else {
+		for id, _ := range channels {
+			promRegister(s, id)
+		}
+	}
+
+	*s.Downstream = down
+	*s.downstreamChannels = channels
 
 	return true
 }
 
-func (s *status) upstreamBonds(node *html.Node) bool {
+func (s *status) upstream(node *html.Node) bool {
 	log := logrus.WithField("method", "status.upstreamBonds")
 	defer log.Trace("Done")
 
@@ -157,13 +250,12 @@ func (s *status) upstreamBonds(node *html.Node) bool {
 
 	trs := htmlquery.Find(tbody, `//tr`)
 
-	s.Upstream = make([]upstream, len(trs)-2)
+	up := map[int]upstream{}
 	for i := 2; i < len(trs); i++ {
 		channel, _ := strconv.Atoi(htmlquery.InnerText(htmlquery.FindOne(trs[i], `/td[1]`)))
 		id, _ := strconv.Atoi(htmlquery.InnerText(htmlquery.FindOne(trs[i], `/td[2]`)))
-		s.Upstream[i-2] = upstream{
+		up[id] = upstream{
 			Channel:   channel,
-			Id:        id,
 			Locked:    htmlquery.InnerText(htmlquery.FindOne(trs[i], `/td[3]`)),
 			Type:      htmlquery.InnerText(htmlquery.FindOne(trs[i], `/td[4]`)),
 			Frequency: hz(trs[i], `/td[5]`),
@@ -171,6 +263,8 @@ func (s *status) upstreamBonds(node *html.Node) bool {
 			Power:     db(trs[i], `/td[7]`),
 		}
 	}
+
+	*s.Upstream = up
 
 	return true
 }

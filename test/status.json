@@ -4,8 +4,8 @@
 	"DownstreamChannelStatus": "Locked",
 	"Connectivity": "OK",
 	"ConnectivityComment": "Operational",
-	"Downstream": [
-		{
+	"Downstream": {
+		"20": {
 			"Id": 20,
 			"Locked": "Locked",
 			"Modulation": "QAM256",
@@ -15,7 +15,7 @@
 			"Corrected": 41584,
 			"Uncorrectables": 51908
 		},
-		{
+		"17": {
 			"Id": 17,
 			"Locked": "Locked",
 			"Modulation": "QAM256",
@@ -25,7 +25,7 @@
 			"Corrected": 46093,
 			"Uncorrectables": 52665
 		},
-		{
+		"18": {
 			"Id": 18,
 			"Locked": "Locked",
 			"Modulation": "QAM256",
@@ -35,7 +35,7 @@
 			"Corrected": 45411,
 			"Uncorrectables": 50810
 		},
-		{
+		"19": {
 			"Id": 19,
 			"Locked": "Locked",
 			"Modulation": "QAM256",
@@ -45,7 +45,7 @@
 			"Corrected": 44822,
 			"Uncorrectables": 52503
 		},
-		{
+		"21": {
 			"Id": 21,
 			"Locked": "Locked",
 			"Modulation": "QAM256",
@@ -55,7 +55,7 @@
 			"Corrected": 43923,
 			"Uncorrectables": 48829
 		},
-		{
+		"22": {
 			"Id": 22,
 			"Locked": "Locked",
 			"Modulation": "QAM256",
@@ -65,7 +65,7 @@
 			"Corrected": 43473,
 			"Uncorrectables": 48068
 		},
-		{
+		"23": {
 			"Id": 23,
 			"Locked": "Locked",
 			"Modulation": "QAM256",
@@ -75,7 +75,7 @@
 			"Corrected": 43108,
 			"Uncorrectables": 47273
 		},
-		{
+		"24": {
 			"Id": 24,
 			"Locked": "Locked",
 			"Modulation": "QAM256",
@@ -85,7 +85,7 @@
 			"Corrected": 43016,
 			"Uncorrectables": 46841
 		},
-		{
+		"25": {
 			"Id": 25,
 			"Locked": "Locked",
 			"Modulation": "QAM256",
@@ -95,7 +95,7 @@
 			"Corrected": 43084,
 			"Uncorrectables": 46885
 		},
-		{
+		"26": {
 			"Id": 26,
 			"Locked": "Locked",
 			"Modulation": "QAM256",
@@ -105,7 +105,7 @@
 			"Corrected": 42466,
 			"Uncorrectables": 47274
 		},
-		{
+		"27": {
 			"Id": 27,
 			"Locked": "Locked",
 			"Modulation": "QAM256",
@@ -115,7 +115,7 @@
 			"Corrected": 41972,
 			"Uncorrectables": 46171
 		},
-		{
+		"28": {
 			"Id": 28,
 			"Locked": "Locked",
 			"Modulation": "QAM256",
@@ -125,7 +125,7 @@
 			"Corrected": 41881,
 			"Uncorrectables": 47295
 		},
-		{
+		"29": {
 			"Id": 29,
 			"Locked": "Locked",
 			"Modulation": "QAM256",
@@ -135,7 +135,7 @@
 			"Corrected": 41598,
 			"Uncorrectables": 47555
 		},
-		{
+		"30": {
 			"Id": 30,
 			"Locked": "Locked",
 			"Modulation": "QAM256",
@@ -145,7 +145,7 @@
 			"Corrected": 41278,
 			"Uncorrectables": 47586
 		},
-		{
+		"31": {
 			"Id": 31,
 			"Locked": "Locked",
 			"Modulation": "QAM256",
@@ -155,7 +155,7 @@
 			"Corrected": 41486,
 			"Uncorrectables": 50699
 		},
-		{
+		"32": {
 			"Id": 32,
 			"Locked": "Locked",
 			"Modulation": "QAM256",
@@ -165,7 +165,7 @@
 			"Corrected": 40481,
 			"Uncorrectables": 50103
 		},
-		{
+		"33": {
 			"Id": 33,
 			"Locked": "Locked",
 			"Modulation": "QAM256",
@@ -175,7 +175,7 @@
 			"Corrected": 40032,
 			"Uncorrectables": 48596
 		},
-		{
+		"34": {
 			"Id": 34,
 			"Locked": "Locked",
 			"Modulation": "QAM256",
@@ -185,8 +185,8 @@
 			"Corrected": 40458,
 			"Uncorrectables": 52510
 		},
-		{
-			"Id": 35,
+		"35": {
+"Id": 35,
 			"Locked": "Locked",
 			"Modulation": "QAM256",
 			"Frequency": 645000000,
@@ -195,7 +195,7 @@
 			"Corrected": 39670,
 			"Uncorrectables": 50715
 		},
-		{
+		"36": {
 			"Id": 36,
 			"Locked": "Locked",
 			"Modulation": "QAM256",
@@ -205,7 +205,7 @@
 			"Corrected": 40016,
 			"Uncorrectables": 51583
 		},
-		{
+		"37": {
 			"Id": 37,
 			"Locked": "Locked",
 			"Modulation": "QAM256",
@@ -215,7 +215,7 @@
 			"Corrected": 40285,
 			"Uncorrectables": 53890
 		},
-		{
+		"38": {
 			"Id": 38,
 			"Locked": "Locked",
 			"Modulation": "QAM256",
@@ -225,7 +225,7 @@
 			"Corrected": 39806,
 			"Uncorrectables": 52623
 		},
-		{
+		"39": {
 			"Id": 39,
 			"Locked": "Locked",
 			"Modulation": "QAM256",
@@ -235,7 +235,7 @@
 			"Corrected": 39016,
 			"Uncorrectables": 53986
 		},
-		{
+		"40": {
 			"Id": 40,
 			"Locked": "Locked",
 			"Modulation": "QAM256",
@@ -245,7 +245,7 @@
 			"Corrected": 39132,
 			"Uncorrectables": 56036
 		},
-		{
+		"41": {
 			"Id": 41,
 			"Locked": "Locked",
 			"Modulation": "QAM256",
@@ -255,7 +255,7 @@
 			"Corrected": 41409,
 			"Uncorrectables": 58561
 		},
-		{
+		"42": {
 			"Id": 42,
 			"Locked": "Locked",
 			"Modulation": "QAM256",
@@ -265,7 +265,7 @@
 			"Corrected": 38899,
 			"Uncorrectables": 55110
 		},
-		{
+		"43": {
 			"Id": 43,
 			"Locked": "Locked",
 			"Modulation": "QAM256",
@@ -275,7 +275,7 @@
 			"Corrected": 37772,
 			"Uncorrectables": 56225
 		},
-		{
+		"44": {
 			"Id": 44,
 			"Locked": "Locked",
 			"Modulation": "QAM256",
@@ -285,7 +285,7 @@
 			"Corrected": 37713,
 			"Uncorrectables": 54978
 		},
-		{
+		"45": {
 			"Id": 45,
 			"Locked": "Locked",
 			"Modulation": "QAM256",
@@ -295,7 +295,7 @@
 			"Corrected": 37743,
 			"Uncorrectables": 56134
 		},
-		{
+		"46": {
 			"Id": 46,
 			"Locked": "Locked",
 			"Modulation": "QAM256",
@@ -305,7 +305,7 @@
 			"Corrected": 36220,
 			"Uncorrectables": 51388
 		},
-		{
+		"47": {
 			"Id": 47,
 			"Locked": "Locked",
 			"Modulation": "QAM256",
@@ -315,7 +315,7 @@
 			"Corrected": 36164,
 			"Uncorrectables": 51989
 		},
-		{
+		"48": {
 			"Id": 48,
 			"Locked": "Locked",
 			"Modulation": "Other",
@@ -325,43 +325,39 @@
 			"Corrected": 254404346,
 			"Uncorrectables": 1398
 		}
-	],
-	"Upstream": [
-		{
+	},
+	"Upstream": {
+		"23": {
 			"Channel": 1,
-			"Id": 23,
 			"Locked": "Locked",
 			"Type": "SC-QAM Upstream",
 			"Frequency": 23700000,
 			"Width": 6400000,
 			"Power": 38.0
 		},
-		{
+		"21": {
 			"Channel": 2,
-			"Id": 21,
 			"Locked": "Locked",
 			"Type": "SC-QAM Upstream",
 			"Frequency": 36500000,
 			"Width": 6400000,
 			"Power": 35.0
 		},
-		{
+		"22": {
 			"Channel": 3,
-			"Id": 22,
 			"Locked": "Locked",
 			"Type": "SC-QAM Upstream",
 			"Frequency": 30100000,
 			"Width": 6400000,
 			"Power": 37.0
 		},
-		{
+		"24": {
 			"Channel": 4,
-			"Id": 24,
 			"Locked": "Locked",
 			"Type": "SC-QAM Upstream",
 			"Frequency": 17300000,
 			"Width": 6400000,
 			"Power": 38.0
 		}
-	]
+	}
 }

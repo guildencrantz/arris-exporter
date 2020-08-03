@@ -54,10 +54,16 @@ func (xs *extracts) removes(is []int) {
 
 type page struct {
 	Model    string
+	Host     string
+	Page     string
 	extracts *extracts
 }
 
 func (p *page) Finalize() {
+	if p.Host == "" {
+		p.Host = "http://192.168.100.1"
+	}
+
 	if p.extracts == nil {
 		p.extracts = &extracts{p.model}
 	}
