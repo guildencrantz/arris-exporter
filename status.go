@@ -48,7 +48,7 @@ func promCorrected(s *status, id int) prometheus.GaugeFunc {
 		prometheus.GaugeOpts{
 			Namespace:   "arris",
 			Subsystem:   "downstream",
-			Name:        "correctable",
+			Name:        "corrected",
 			Help:        "",
 			ConstLabels: prometheus.Labels{"channel": strconv.Itoa(id)},
 		},
@@ -63,7 +63,7 @@ func promUncorrectables(s *status, id int) prometheus.GaugeFunc {
 		prometheus.GaugeOpts{
 			Namespace:   "arris",
 			Subsystem:   "downstream",
-			Name:        "uncorrectable",
+			Name:        "uncorrectables",
 			Help:        "",
 			ConstLabels: prometheus.Labels{"channel": strconv.Itoa(id)},
 		},
