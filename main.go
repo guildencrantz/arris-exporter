@@ -16,7 +16,7 @@ import (
 
 func init() {
 	// TODO: Flag
-	logrus.SetLevel(logrus.TraceLevel)
+	logrus.SetLevel(logrus.DebugLevel)
 }
 
 func main() {

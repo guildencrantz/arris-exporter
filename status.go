@@ -31,10 +31,11 @@ type downstream struct {
 func promPower(s *status, id int) prometheus.GaugeFunc {
 	return prometheus.NewGaugeFunc(
 		prometheus.GaugeOpts{
-			Namespace: "arris",
-			Subsystem: "downstream",
-			Name:      fmt.Sprintf("power_%d", id),
-			Help:      "Power, in Hz, of downstream channel.",
+			Namespace:   "arris",
+			Subsystem:   "downstream",
+			Name:        "power",
+			Help:        "Power, in Hz, of downstream channel.",
+			ConstLabels: prometheus.Labels{"channel": strconv.Itoa(id)},
 		},
 		func() float64 {
 			return float64((*s.Downstream)[id].Power)

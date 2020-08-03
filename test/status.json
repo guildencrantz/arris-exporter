@@ -1,5 +1,7 @@
 {
 	"Model": "SB8200",
+	"Host": "http://192.168.100.1",
+	"Page": "cmconnectionstatus.html",
 	"AcquiredDownstreamChannel": 555000000,
 	"DownstreamChannelStatus": "Locked",
 	"Connectivity": "OK",
