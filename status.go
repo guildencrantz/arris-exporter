@@ -43,11 +43,43 @@ func promPower(s *status, id int) prometheus.GaugeFunc {
 	)
 }
 
+func promCorrected(s *status, id int) prometheus.GaugeFunc {
+	return prometheus.NewGaugeFunc(
+		prometheus.GaugeOpts{
+			Namespace:   "arris",
+			Subsystem:   "downstream",
+			Name:        "correctable",
+			Help:        "",
+			ConstLabels: prometheus.Labels{"channel": strconv.Itoa(id)},
+		},
+		func() float64 {
+			return float64((*s.Downstream)[id].Corrected)
+		},
+	)
+}
+
+func promUncorrectables(s *status, id int) prometheus.GaugeFunc {
+	return prometheus.NewGaugeFunc(
+		prometheus.GaugeOpts{
+			Namespace:   "arris",
+			Subsystem:   "downstream",
+			Name:        "uncorrectable",
+			Help:        "",
+			ConstLabels: prometheus.Labels{"channel": strconv.Itoa(id)},
+		},
+		func() float64 {
+			return float64((*s.Downstream)[id].Uncorrectables)
+		},
+	)
+}
+
 func promRegister(s *status, id int) {
 	log := logrus.WithField("method", "downstream.Register").WithField("id", id)
 	defer log.Trace("done")
 
 	prometheus.Register(promPower(s, id))
+	prometheus.Register(promCorrected(s, id))
+	prometheus.Register(promUncorrectables(s, id))
 }
 
 func promUnregister(s *status, id int) {
@@ -55,6 +87,8 @@ func promUnregister(s *status, id int) {
 	defer log.Trace("done")
 
 	prometheus.Unregister(promPower(s, id))
+	prometheus.Unregister(promCorrected(s, id))
+	prometheus.Unregister(promUncorrectables(s, id))
 }
 
 type upstream struct {

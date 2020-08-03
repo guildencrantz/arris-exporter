@@ -21,6 +21,6 @@ COPY --from=alpine /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
 EXPOSE 9100
 
 # NOBODY
-USER 65534
+#USER 65534
 
 ENTRYPOINT ["/arris-exporter"]
