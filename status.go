@@ -73,6 +73,21 @@ func promUncorrectables(s *status, id int) prometheus.GaugeFunc {
 	)
 }
 
+func promSNR(s *status, id int) prometheus.GaugeFunc {
+	return prometheus.NewGaugeFunc(
+		prometheus.GaugeOpts{
+			Namespace:   "arris",
+			Subsystem:   "downstream",
+			Name:        "snr",
+			Help:        "",
+			ConstLabels: prometheus.Labels{"channel": strconv.Itoa(id)},
+		},
+		func() float64 {
+			return float64((*s.Downstream)[id].SNR)
+		},
+	)
+}
+
 func promRegisterDownstream(s *status, id int) {
 	log := logrus.WithField("method", "downstream.promRegisterDownstream").WithField("id", id)
 	defer log.Trace("done")
@@ -80,6 +95,7 @@ func promRegisterDownstream(s *status, id int) {
 	prometheus.Register(promDownstreamPower(s, id))
 	prometheus.Register(promCorrected(s, id))
 	prometheus.Register(promUncorrectables(s, id))
+	prometheus.Register(promSNR(s, id))
 }
 
 func promUnregisterDownstream(s *status, id int) {
@@ -89,6 +105,7 @@ func promUnregisterDownstream(s *status, id int) {
 	prometheus.Unregister(promDownstreamPower(s, id))
 	prometheus.Unregister(promCorrected(s, id))
 	prometheus.Unregister(promUncorrectables(s, id))
+	prometheus.Unregister(promSNR(s, id))
 }
 
 func promUpstreamPower(s *status, id int) prometheus.GaugeFunc {
